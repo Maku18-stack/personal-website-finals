@@ -1,265 +1,256 @@
 <template>
   <div class="page">
+
     <!-- Header -->
     <header class="header">
       <div class="brand">
-        <div class="brandTitle">Maku’s Profile</div>
-        <div class="brandSub">Personal Profile • Guestbook</div>
+        <span class="brand-dot"></span>
+        <span class="brand-name">maku<span class="brand-accent">.</span></span>
       </div>
-
       <nav class="nav">
         <a href="#profile">Profile</a>
         <a href="#guestbook">Guestbook</a>
         <a href="#entries">Entries</a>
       </nav>
+      <div class="header-badge">Open to work</div>
     </header>
 
-    <!-- PROFILE FIRST -->
-    <section id="profile" class="profile">
-      <div class="profileGrid">
-        <!-- Left: identity -->
-        <div class="card">
-          <div class="profileTop">
-            <div class="avatar" aria-hidden="true"></div>
-            <div class="who">
-              <div class="name">Mark Ani</div>
-              <div class="role muted">WEBPROG • Personal Website Finals</div>
-            </div>
+    <!-- ── PROFILE ── -->
+    <section id="profile" class="profile-section">
+
+      <!-- Hero block -->
+      <div class="hero">
+        <div class="hero-left">
+          <div class="avatar-wrap">
+            <div class="avatar-ring"></div>
+            <div class="avatar-inner">MA</div>
           </div>
-
-          <div class="divider"></div>
-
-          <div class="kv">
-            <div class="kvItem">
-              <div class="kvLabel">Email</div>
-              <div class="kvValue">your-email@example.com</div>
-            </div>
-            <div class="kvItem">
-              <div class="kvLabel">Location</div>
-              <div class="kvValue">Philippines</div>
-            </div>
-            <div class="kvItem">
-              <div class="kvLabel">Stack</div>
-              <div class="kvValue">Vue • NestJS • Supabase</div>
-            </div>
+          <div class="hero-meta">
+            <div class="hero-tag">WEBPROG · Finals</div>
+            <h1 class="hero-name">Mark Ani</h1>
+            <p class="hero-sub">Full-Stack Developer · Philippines</p>
           </div>
+        </div>
+        <div class="hero-right">
+          <a class="cta-btn" href="#guestbook">Sign Guestbook <span class="arrow">↓</span></a>
+        </div>
+      </div>
 
-          <div class="actionsRow">
-            <a class="btn primary" href="#guestbook">Open Guestbook</a>
-            <a class="btn" href="#entries">View Entries</a>
+      <!-- Info grid -->
+      <div class="info-grid">
+        <!-- About card -->
+        <div class="card about-card">
+          <div class="card-label">About</div>
+          <p class="about-text">
+            This page contains my profile and a working guestbook. The guestbook uses
+            REST API calls and stores entries in the database via NestJS + Supabase.
+          </p>
+          <div class="about-kv">
+            <div class="kv-item">
+              <span class="kv-key">Email</span>
+              <span class="kv-val">your-email@example.com</span>
+            </div>
+            <div class="kv-item">
+              <span class="kv-key">Location</span>
+              <span class="kv-val">Philippines</span>
+            </div>
+            <div class="kv-item">
+              <span class="kv-key">Stack</span>
+              <span class="kv-val">Vue · NestJS · Supabase</span>
+            </div>
           </div>
         </div>
 
-        <!-- Right: about + skills -->
-        <div class="card">
-          <div class="cardHead">
-            <h2 class="h2">About</h2>
-            <div class="metaPill">Formal</div>
-          </div>
-
-          <p class="p">
-            This page contains my profile and a working guestbook. The guestbook uses REST API calls and stores entries in the database.
-          </p>
-
-          <div class="split">
-            <div class="mini">
-              <div class="miniTitle">Skills</div>
-              <ul class="listClean">
-                <li>Frontend (Vue)</li>
-                <li>Backend (NestJS)</li>
-                <li>Database (Supabase)</li>
-                <li>Deployment (Vercel)</li>
-              </ul>
-            </div>
-
-            <div class="mini">
-              <div class="miniTitle">Links</div>
-              <ul class="listClean">
-                <li><a class="link" href="#" target="_blank" rel="noreferrer">GitHub</a></li>
-                <li><a class="link" href="#" target="_blank" rel="noreferrer">Vercel</a></li>
-                <li><a class="link" href="#" target="_blank" rel="noreferrer">Backend API</a></li>
-              </ul>
+        <!-- Skills card -->
+        <div class="card skills-card">
+          <div class="card-label">Skills</div>
+          <div class="skill-list">
+            <div class="skill-item" v-for="(s, i) in skills" :key="i" :style="`--i:${i}`">
+              <span class="skill-icon">{{ s.icon }}</span>
+              <span>{{ s.label }}</span>
             </div>
           </div>
+        </div>
 
-          <div class="marquee" aria-label="tech marquee">
-            <div class="track">
-              <span class="chip">Vue</span>
-              <span class="chip">Vite</span>
-              <span class="chip">NestJS</span>
-              <span class="chip">REST API</span>
-              <span class="chip">Supabase</span>
-              <span class="chip">Vercel</span>
-
-              <span class="chip">Vue</span>
-              <span class="chip">Vite</span>
-              <span class="chip">NestJS</span>
-              <span class="chip">REST API</span>
-              <span class="chip">Supabase</span>
-              <span class="chip">Vercel</span>
-            </div>
+        <!-- Links card -->
+        <div class="card links-card">
+          <div class="card-label">Links</div>
+          <div class="link-list">
+            <a class="link-row" href="#" target="_blank" rel="noreferrer">
+              <span class="link-icon">⌥</span>
+              <span>GitHub</span>
+              <span class="link-arr">↗</span>
+            </a>
+            <a class="link-row" href="#" target="_blank" rel="noreferrer">
+              <span class="link-icon">▲</span>
+              <span>Vercel</span>
+              <span class="link-arr">↗</span>
+            </a>
+            <a class="link-row" href="#" target="_blank" rel="noreferrer">
+              <span class="link-icon">◎</span>
+              <span>Backend API</span>
+              <span class="link-arr">↗</span>
+            </a>
           </div>
+        </div>
+      </div>
+
+      <!-- Marquee -->
+      <div class="marquee" aria-hidden="true">
+        <div class="track">
+          <span class="chip" v-for="t in [...techChips, ...techChips]" :key="t + Math.random()">{{ t }}</span>
         </div>
       </div>
     </section>
 
-    <!-- GUESTBOOK -->
+    <!-- ── GUESTBOOK ── -->
     <section id="guestbook" class="section">
-      <div class="sectionHead">
+      <div class="section-header">
         <div>
-          <h2 class="h2">Guestbook</h2>
-          <p class="muted small">Leave an entry below.</p>
+          <div class="section-eyebrow">Leave a message</div>
+          <h2 class="section-title">Guestbook</h2>
         </div>
-
-        <div class="rightMeta">
-          <div class="countBox">
-            <div class="countLabel">Total entries</div>
-            <div class="countValue">{{ messages.length }}</div>
+        <div class="section-right">
+          <div class="count-badge">
+            <span class="count-num">{{ messages.length }}</span>
+            <span class="count-label">entries</span>
           </div>
-          <button class="btn" @click="load" :disabled="loading || apiMissing">
-            {{ loading ? "Refreshing…" : "Refresh" }}
+          <button class="ghost-btn" @click="load" :disabled="loading || apiMissing">
+            {{ loading ? "…" : "↺ Refresh" }}
           </button>
         </div>
       </div>
 
       <div v-if="apiMissing" class="notice">
-        <div class="noticeTitle">Configuration required</div>
-        <div class="noticeText">
-          Set <code>VITE_API_URL</code> in your frontend Vercel project to your backend URL, then redeploy.
+        <span class="notice-icon">⚠</span>
+        <div>
+          <strong>Configuration required</strong> — Set <code>VITE_API_URL</code> in your
+          Vercel frontend project, then redeploy.
         </div>
       </div>
 
-      <div class="guestGrid">
+      <div class="guest-grid">
         <!-- Form -->
-        <form class="card" @submit.prevent="submit" aria-label="Guestbook form">
-          <h3 class="h3">Sign the guestbook</h3>
+        <form class="card form-card" @submit.prevent="submit" aria-label="Guestbook form">
+          <div class="card-label">Sign the guestbook</div>
 
           <div class="row2">
             <label class="field">
-              <span>Name</span>
-              <input v-model="name" class="input" placeholder="Full name" maxlength="40" />
+              <span class="field-label">Name</span>
+              <input v-model="name" class="input" placeholder="Your name" maxlength="40" />
             </label>
-
             <label class="field">
-              <span>Location</span>
+              <span class="field-label">Location</span>
               <input v-model="location" class="input" placeholder="City / Country" maxlength="60" />
             </label>
           </div>
 
           <div class="field">
-            <div class="fieldTop">
-              <span class="fieldLabel">Category</span>
-              <span class="muted small">Selected: {{ selectedTagLabel }}</span>
+            <div class="field-label-row">
+              <span class="field-label">Category</span>
+              <span class="field-sub">{{ selectedTagLabel }}</span>
             </div>
-
-            <div class="pillGrid" role="list">
+            <div class="pill-grid" role="list">
               <button
-                v-for="t in tags"
-                :key="t.id"
+                v-for="t in tags" :key="t.id"
                 type="button"
-                class="pill"
-                :class="{ active: tag === t.id }"
-                @click="tag = t.id"
-                role="listitem"
-              >
-                {{ t.label }}
-              </button>
+                class="pill" :class="{ active: tag === t.id }"
+                @click="tag = t.id" role="listitem"
+              >{{ t.label }}</button>
             </div>
           </div>
 
           <label class="field">
-            <span>Message</span>
+            <span class="field-label">Message</span>
             <textarea
               v-model="message"
               class="input textarea"
-              placeholder="Write a message (max 200)"
+              placeholder="Write a message… (max 200 chars)"
               maxlength="200"
             ></textarea>
-            <div class="counter">{{ (message || "").length }}/200</div>
+            <div class="char-count">{{ (message || "").length }}/200</div>
           </label>
 
-          <div class="actions">
-            <button class="btn primary" :disabled="loading || apiMissing">
-              {{ loading ? "Posting…" : "Submit" }}
+          <div class="form-actions">
+            <button class="submit-btn" :disabled="loading || apiMissing">
+              {{ loading ? "Posting…" : "Submit Entry" }}
             </button>
-            <button class="btn" type="button" @click="resetForm" :disabled="loading">
-              Clear
-            </button>
+            <button class="ghost-btn" type="button" @click="resetForm" :disabled="loading">Clear</button>
           </div>
 
-          <p v-if="error" class="error">{{ error }}</p>
-          <p v-if="ok" class="ok">Submitted.</p>
+          <p v-if="error" class="msg-error">{{ error }}</p>
+          <p v-if="ok" class="msg-ok">✓ Entry submitted!</p>
         </form>
 
-        <!-- Entries preview -->
-        <div class="card" aria-label="Guestbook preview">
-          <h3 class="h3">Latest entries</h3>
-          <div class="previewList">
-            <div v-if="messages.length === 0" class="empty muted">No entries.</div>
+        <!-- Preview -->
+        <div class="card preview-card" aria-label="Guestbook preview">
+          <div class="card-label">Latest entries</div>
 
-            <article v-for="m in messages.slice(0, 4)" :key="m.id" class="previewItem">
-              <div class="previewTop">
-                <div class="strong">{{ m.name }}</div>
-                <div class="muted small">{{ formatDate(m.created_at) }}</div>
-              </div>
-              <div class="muted small">{{ m.location || "—" }} • {{ m.tag ? tagLabel(m.tag) : "—" }}</div>
-              <div class="previewMsg">{{ m.message }}</div>
-            </article>
-
-            <a class="linkBtn" href="#entries">View all entries →</a>
+          <div v-if="messages.length === 0" class="empty-state">
+            <span>No entries yet. Be the first!</span>
           </div>
+
+          <article v-for="m in messages.slice(0, 4)" :key="m.id" class="preview-entry">
+            <div class="entry-top">
+              <div class="entry-name">{{ m.name }}</div>
+              <div class="entry-date">{{ formatDate(m.created_at) }}</div>
+            </div>
+            <div class="entry-meta">{{ m.location || "—" }} <span class="dot">·</span> {{ m.tag ? tagLabel(m.tag) : "—" }}</div>
+            <p class="entry-msg">{{ m.message }}</p>
+          </article>
+
+          <a class="view-all" href="#entries">View all entries →</a>
         </div>
       </div>
     </section>
 
-    <!-- ENTRIES -->
+    <!-- ── ENTRIES ── -->
     <section id="entries" class="section">
-      <div class="sectionHead">
+      <div class="section-header">
         <div>
-          <h2 class="h2">Entries</h2>
-          <p class="muted small">Search and filter entries.</p>
+          <div class="section-eyebrow">Browse</div>
+          <h2 class="section-title">All Entries</h2>
         </div>
-
         <div class="filters">
-          <input v-model="query" class="input filterInput" placeholder="Search" maxlength="40" />
-          <select v-model="filterTag" class="input filterSelect">
+          <input v-model="query" class="input filter-input" placeholder="Search…" maxlength="40" />
+          <select v-model="filterTag" class="input filter-select">
             <option value="">All categories</option>
             <option v-for="t in tags" :key="t.id" :value="t.id">{{ t.label }}</option>
           </select>
         </div>
       </div>
 
-      <div class="table">
-        <div class="tableHead">
-          <div>Name</div>
-          <div>Location</div>
-          <div>Category</div>
-          <div>Date</div>
+      <div class="table-wrap">
+        <div class="table-head">
+          <span>Name</span>
+          <span>Location</span>
+          <span>Category</span>
+          <span>Date</span>
         </div>
 
-        <div v-if="filteredMessages.length === 0" class="empty muted">No entries found.</div>
+        <div v-if="filteredMessages.length === 0" class="empty-state table-empty">No entries found.</div>
 
-        <article v-for="m in filteredMessages" :key="m.id" class="tableRow">
-          <div class="cell strong">{{ m.name }}</div>
+        <article v-for="m in filteredMessages" :key="m.id" class="table-row">
+          <div class="cell cell-name">{{ m.name }}</div>
           <div class="cell muted">{{ m.location || "—" }}</div>
           <div class="cell">
-            <span v-if="m.tag" class="tagPill">{{ tagLabel(m.tag) }}</span>
+            <span v-if="m.tag" class="tag-badge">{{ tagLabel(m.tag) }}</span>
             <span v-else class="muted">—</span>
           </div>
           <div class="cell muted">{{ formatDate(m.created_at) }}</div>
-
-          <div class="msgRow">
-            <div class="msgLabel muted">Message</div>
-            <div class="msgText">{{ m.message }}</div>
+          <div class="msg-expand">
+            <span class="msg-label">Message</span>
+            <span class="msg-body">{{ m.message }}</span>
           </div>
         </article>
       </div>
     </section>
 
     <footer class="footer">
-      <div class="muted small">© {{ new Date().getFullYear() }} Maku</div>
-      <div class="muted small">Profile • Guestbook</div>
+      <span>© {{ new Date().getFullYear() }} Mark Ani</span>
+      <span>Built with Vue · NestJS · Supabase</span>
     </footer>
+
   </div>
 </template>
 
@@ -270,34 +261,39 @@ const API = import.meta.env.VITE_API_URL || "";
 const apiMissing = computed(() => !API || typeof API !== "string" || !API.startsWith("http"));
 
 const tags = [
-  { id: "formal", label: "Formal" },
-  { id: "respectful", label: "Respectful" },
+  { id: "formal",       label: "Formal" },
+  { id: "respectful",   label: "Respectful" },
   { id: "professional", label: "Professional" },
-  { id: "friendly", label: "Friendly" },
-  { id: "neutral", label: "Neutral" },
-  { id: "feedback", label: "Feedback" },
+  { id: "friendly",     label: "Friendly" },
+  { id: "neutral",      label: "Neutral" },
+  { id: "feedback",     label: "Feedback" },
 ];
 
-const name = ref("");
+const skills = [
+  { icon: "◈", label: "Frontend — Vue + Vite" },
+  { icon: "◉", label: "Backend — NestJS" },
+  { icon: "◎", label: "Database — Supabase" },
+  { icon: "▲", label: "Deployment — Vercel" },
+];
+
+const techChips = ["Vue 3", "Vite", "NestJS", "REST API", "Supabase", "PostgreSQL", "Vercel", "TypeScript", "Tailwind"];
+
+const name     = ref("");
 const location = ref("");
-const tag = ref("formal");
-const message = ref("");
-
+const tag      = ref("formal");
+const message  = ref("");
 const messages = ref([]);
-const loading = ref(false);
-const error = ref("");
-const ok = ref(false);
-
-const query = ref("");
+const loading  = ref(false);
+const error    = ref("");
+const ok       = ref(false);
+const query     = ref("");
 const filterTag = ref("");
 
 const selectedTagLabel = computed(() => tagLabel(tag.value));
 
 function tagLabel(id) {
-  const t = tags.find((x) => x.id === id);
-  return t ? t.label : id || "";
+  return tags.find(x => x.id === id)?.label ?? id ?? "";
 }
-
 function formatDate(d) {
   if (!d) return "";
   return new Date(d).toLocaleString();
@@ -305,372 +301,429 @@ function formatDate(d) {
 
 const filteredMessages = computed(() => {
   const q = (query.value || "").toLowerCase().trim();
-  return messages.value.filter((m) => {
-    const matchesText =
-      !q ||
-      (m.name || "").toLowerCase().includes(q) ||
-      (m.message || "").toLowerCase().includes(q) ||
-      (m.location || "").toLowerCase().includes(q);
-
-    const matchesTag = !filterTag.value || m.tag === filterTag.value;
-    return matchesText && matchesTag;
+  return messages.value.filter(m => {
+    const text = !q || [m.name, m.message, m.location].some(f => (f||"").toLowerCase().includes(q));
+    const category = !filterTag.value || m.tag === filterTag.value;
+    return text && category;
   });
 });
 
 async function load() {
-  error.value = "";
-  ok.value = false;
-
-  if (apiMissing.value) {
-    messages.value = [];
-    error.value = "VITE_API_URL is not set. Add it in Vercel (frontend) and redeploy.";
-    return;
-  }
-
+  error.value = ""; ok.value = false;
+  if (apiMissing.value) { messages.value = []; return; }
   loading.value = true;
   try {
-    const res = await fetch(`${API}/guestbook`);
+    const res  = await fetch(`${API}/guestbook`);
     const data = await res.json();
     messages.value = Array.isArray(data) ? data : [];
-  } catch (e) {
+  } catch {
     error.value = "Failed to load entries. Check API URL or backend status.";
-  } finally {
-    loading.value = false;
-  }
+  } finally { loading.value = false; }
 }
 
 function resetForm() {
-  name.value = "";
-  location.value = "";
-  message.value = "";
-  tag.value = "formal";
-  error.value = "";
-  ok.value = false;
+  name.value = ""; location.value = ""; message.value = "";
+  tag.value = "formal"; error.value = ""; ok.value = false;
 }
 
 async function submit() {
-  error.value = "";
-  ok.value = false;
-
-  const n = (name.value || "").trim();
-  const loc = (location.value || "").trim();
-  const msg = (message.value || "").trim();
-
-  if (!n || !msg) {
-    error.value = "Please enter your name and message.";
-    return;
-  }
-  if (apiMissing.value) {
-    error.value = "API URL missing. Set VITE_API_URL then redeploy.";
-    return;
-  }
-
+  error.value = ""; ok.value = false;
+  const n   = name.value.trim();
+  const msg = message.value.trim();
+  if (!n || !msg) { error.value = "Name and message are required."; return; }
+  if (apiMissing.value) { error.value = "API URL missing. Set VITE_API_URL."; return; }
   loading.value = true;
   try {
-    const res = await fetch(`${API}/guestbook`, {
+    const res  = await fetch(`${API}/guestbook`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name: n, message: msg, location: loc, tag: tag.value }),
+      body: JSON.stringify({ name: n, message: msg, location: location.value.trim(), tag: tag.value }),
     });
-
     const data = await res.json();
-    if (data?.error) {
-      error.value = data.error;
-    } else {
-      ok.value = true;
-      name.value = "";
-      location.value = "";
-      message.value = "";
-      await load();
-    }
-  } catch (e) {
-    error.value = "Failed to post. Check backend and env vars.";
-  } finally {
-    loading.value = false;
-  }
+    if (data?.error) { error.value = data.error; }
+    else { ok.value = true; name.value = ""; location.value = ""; message.value = ""; await load(); }
+  } catch { error.value = "Failed to post. Check backend and env vars."; }
+  finally { loading.value = false; }
 }
 
 onMounted(load);
 </script>
 
 <style>
-:root{
-  --bg:#0b0b0b;
-  --card:#121212;
-  --border:#232323;
-  --text:#fff;
-  --muted:rgba(255,255,255,.68);
-  --muted2:rgba(255,255,255,.45);
-  --shadow:0 14px 44px rgba(0,0,0,.45);
-  --radius:16px;
-}
-*{ box-sizing:border-box; }
-html,body{ margin:0; padding:0; background:var(--bg); color:var(--text); }
-a{ color:inherit; text-decoration:none; }
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800;900&family=DM+Mono:wght@400;500&display=swap');
 
-.page{ max-width:1160px; margin:0 auto; padding:26px 18px 44px; }
-
-/* Header */
-.header{
-  display:flex; justify-content:space-between; align-items:flex-end; gap:16px;
-  padding:14px 2px 18px;
-  border-bottom:1px solid var(--border);
-}
-.brandTitle{ font-weight:900; font-size:22px; letter-spacing:-.01em; }
-.brandSub{
-  margin-top:6px; font-size:12px; color:var(--muted);
-  letter-spacing:.08em; text-transform:uppercase;
-}
-.nav{ display:flex; gap:10px; }
-.nav a{
-  font-size:13px; color:var(--muted); padding:8px 10px; border-radius:999px;
-}
-.nav a:hover{ background:rgba(255,255,255,.06); color:#fff; }
-
-/* Profile */
-.profile{ padding-top:18px; }
-.profileGrid{
-  display:grid; grid-template-columns: 1fr 1fr; gap:18px; align-items:stretch;
-}
-.profileTop{ display:flex; gap:14px; align-items:center; }
-.avatar{
-  width:44px; height:44px; border-radius:12px;
-  border:1px solid var(--border);
-  background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,0));
-}
-.name{ font-weight:900; font-size:18px; }
-.role{ font-size:12px; }
-.divider{ height:1px; background:var(--border); margin:14px 0; }
-
-.kv{ display:grid; grid-template-columns: 1fr 1fr; gap:12px; }
-.kvItem{ border:1px solid var(--border); border-radius:14px; padding:12px; background:rgba(255,255,255,.02); }
-.kvLabel{ font-size:12px; color:var(--muted2); margin-bottom:6px; }
-.kvValue{ font-size:13px; font-weight:800; }
-
-.actionsRow{ display:flex; gap:10px; flex-wrap:wrap; margin-top:14px; }
-
-/* Sections */
-.section{ padding-top:18px; }
-.sectionHead{
-  display:flex; justify-content:space-between; align-items:flex-start; gap:12px;
-  margin-bottom:12px;
+/* ── TOKENS ── */
+:root {
+  --bg:      #060608;
+  --surface: #0e0e12;
+  --border:  rgba(255,255,255,.08);
+  --border2: rgba(255,255,255,.13);
+  --txt:     #f0f0f2;
+  --muted:   rgba(240,240,242,.5);
+  --muted2:  rgba(240,240,242,.3);
+  --accent:  #c8ff57;
+  --accent2: #57c8ff;
+  --r:       18px;
+  --font:    'Syne', sans-serif;
+  --mono:    'DM Mono', monospace;
 }
 
-.rightMeta{ display:flex; gap:10px; align-items:center; flex-wrap:wrap; justify-content:flex-end; }
-.countBox{
-  border:1px solid var(--border);
-  border-radius:14px;
-  padding:10px 12px;
-  background:rgba(255,255,255,.02);
-  text-align:right;
-}
-.countLabel{ font-size:12px; color:var(--muted2); }
-.countValue{ font-size:18px; font-weight:900; margin-top:4px; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: var(--bg); color: var(--txt); font-family: var(--font); scroll-behavior: smooth; }
+a { color: inherit; text-decoration: none; }
 
-.card{
-  background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,0));
-  border:1px solid var(--border);
-  border-radius:var(--radius);
-  box-shadow:var(--shadow);
-  padding:20px;
-}
-.cardHead{ display:flex; justify-content:space-between; align-items:flex-start; gap:12px; }
-.metaPill{
-  font-size:12px; padding:8px 10px; border-radius:999px;
-  border:1px solid var(--border); background:rgba(255,255,255,.02); color:var(--muted);
-}
-.h2{ margin:0 0 6px; font-size:18px; letter-spacing:-.01em; }
-.h3{ margin:0 0 12px; font-size:14px; letter-spacing:-.01em; }
-.p{ margin:10px 0 0; color:var(--muted); line-height:1.6; }
-.muted{ color:var(--muted); }
-.small{ font-size:12px; }
-.strong{ font-weight:900; }
-
-/* Split + lists */
-.split{ display:grid; grid-template-columns: 1fr 1fr; gap:12px; margin-top:14px; }
-.mini{ border:1px solid var(--border); border-radius:14px; padding:14px; background:rgba(255,255,255,.02); }
-.miniTitle{ font-weight:900; font-size:13px; margin-bottom:8px; }
-.listClean{ margin:0; padding-left:18px; color:var(--muted); line-height:1.6; }
-.link{ color:#fff; border-bottom:1px solid rgba(255,255,255,.25); }
-.link:hover{ border-bottom-color:#fff; }
-
-.linkBtn{
-  display:inline-flex; margin-top:12px;
-  padding:10px 12px; border-radius:12px;
-  border:1px solid var(--border);
-  background:rgba(255,255,255,.02);
-  font-weight:800; font-size:12px;
+/* ── PAGE ── */
+.page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 20px 60px;
 }
 
-/* Marquee */
-.marquee{
-  border:1px solid var(--border);
-  border-radius:14px;
-  overflow:hidden;
-  background:rgba(255,255,255,.02);
-  margin-top:14px;
+/* ── HEADER ── */
+.header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 22px 0 20px;
+  border-bottom: 1px solid var(--border);
 }
-.track{
-  display:flex; gap:10px; padding:10px;
-  width:max-content;
-  animation: scroll 18s linear infinite;
+.brand { display: flex; align-items: center; gap: 8px; margin-right: auto; }
+.brand-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 10px var(--accent);
 }
-@keyframes scroll{ from{ transform:translateX(0);} to{ transform:translateX(-50%);} }
-.chip{
-  padding:8px 10px;
-  border:1px solid var(--border);
-  border-radius:999px;
-  font-size:12px;
-  background:rgba(255,255,255,.03);
-  white-space:nowrap;
+.brand-name { font-size: 20px; font-weight: 900; letter-spacing: -.02em; }
+.brand-accent { color: var(--accent); }
+.nav { display: flex; gap: 4px; }
+.nav a {
+  font-size: 13px; color: var(--muted); padding: 8px 14px;
+  border-radius: 999px; border: 1px solid transparent;
+  transition: all .2s;
 }
-
-/* Guest grid */
-.guestGrid{
-  display:grid; grid-template-columns: 1fr 1fr; gap:18px; align-items:start;
-}
-.row2{ display:grid; grid-template-columns: 1fr 1fr; gap:12px; }
-.field span{ display:block; font-size:12px; color:var(--muted2); margin-bottom:7px; }
-.fieldTop{ display:flex; justify-content:space-between; align-items:baseline; gap:10px; }
-.fieldLabel{ font-size:12px; color:var(--muted2); }
-
-.input{
-  width:100%;
-  padding:12px 14px;
-  border-radius:14px;
-  border:1px solid #2a2a2a;
-  background:#0b0b0b;
-  color:#fff;
-  outline:none;
-}
-.input:focus{ border-color:#4a4a4a; }
-.textarea{ min-height:120px; resize:vertical; }
-.counter{ text-align:right; font-size:12px; color:var(--muted); margin-top:6px; }
-
-.pillGrid{ display:flex; flex-wrap:wrap; gap:10px; margin-top:8px; }
-.pill{
-  border:1px solid #2a2a2a;
-  background:rgba(255,255,255,.02);
-  color:#fff;
-  padding:10px 12px;
-  border-radius:999px;
-  font-size:12px;
-  font-weight:800;
-  cursor:pointer;
-}
-.pill:hover{ border-color:#3a3a3a; transform: translateY(-1px); }
-.pill.active{ background:#fff; color:#000; border-color:#fff; }
-
-.actions{ display:flex; gap:10px; flex-wrap:wrap; margin-top:4px; }
-
-.btn{
-  border:1px solid #2a2a2a;
-  background:transparent;
-  color:#fff;
-  padding:12px 14px;
-  border-radius:14px;
-  font-weight:900;
-  font-size:13px;
-  cursor:pointer;
-}
-.btn:hover{ transform: translateY(-1px); }
-.btn:disabled{ opacity:.6; cursor:not-allowed; transform:none; }
-.btn.primary{ background:#fff; color:#000; border-color:#fff; }
-
-.error{ color:#ff8e8e; margin:0; font-size:13px; }
-.ok{ color:#9dffb3; margin:0; font-size:13px; }
-
-/* Preview */
-.previewList{ display:grid; gap:12px; }
-.previewItem{
-  border:1px solid var(--border);
-  border-radius:14px;
-  padding:12px;
-  background:rgba(255,255,255,.02);
-}
-.previewTop{ display:flex; justify-content:space-between; gap:10px; align-items:baseline; }
-.previewMsg{ margin-top:8px; line-height:1.6; }
-
-/* Filters + table */
-.filters{ display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end; }
-.filterInput{ width:260px; }
-.filterSelect{ width:170px; }
-
-.table{
-  border:1px solid var(--border);
-  border-radius:14px;
-  background:rgba(255,255,255,.02);
-  overflow:hidden;
-}
-.tableHead{
-  display:grid;
-  grid-template-columns: 1.1fr .9fr .8fr .9fr;
-  gap:10px;
-  padding:12px 14px;
-  border-bottom:1px solid var(--border);
-  font-size:12px;
-  color:var(--muted2);
-  letter-spacing:.02em;
-  text-transform:uppercase;
-}
-.tableRow{
-  display:grid;
-  grid-template-columns: 1.1fr .9fr .8fr .9fr;
-  gap:10px;
-  align-items:baseline;
-  padding:12px 14px 14px;
-  border-bottom:1px solid var(--border);
-}
-.tableRow:last-child{ border-bottom:none; }
-.cell{ font-size:13px; }
-.tagPill{
-  display:inline-flex;
-  padding:6px 10px;
-  border-radius:999px;
-  border:1px solid var(--border);
-  background:rgba(255,255,255,.03);
-  font-size:12px;
-  color:var(--muted);
-  font-weight:800;
+.nav a:hover { color: var(--txt); border-color: var(--border2); }
+.header-badge {
+  font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--accent); border: 1px solid rgba(200,255,87,.25);
+  background: rgba(200,255,87,.07);
+  padding: 7px 12px; border-radius: 999px;
 }
 
-.msgRow{
+/* ── PROFILE SECTION ── */
+.profile-section { padding-top: 36px; }
+
+.hero {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 24px;
+}
+.hero-left { display: flex; align-items: center; gap: 20px; }
+.avatar-wrap { position: relative; width: 72px; height: 72px; flex-shrink: 0; }
+.avatar-ring {
+  position: absolute; inset: -3px;
+  border-radius: 50%;
+  background: conic-gradient(var(--accent), var(--accent2), var(--accent));
+  animation: spin 6s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.avatar-inner {
+  position: relative; width: 72px; height: 72px;
+  border-radius: 50%; background: var(--surface);
+  border: 3px solid var(--bg);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; font-weight: 900; letter-spacing: -.02em;
+  color: var(--accent);
+}
+.hero-tag {
+  font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--muted2); margin-bottom: 6px;
+}
+.hero-name { font-size: clamp(30px,5vw,48px); font-weight: 900; letter-spacing: -.03em; line-height: 1; }
+.hero-sub { margin-top: 8px; color: var(--muted); font-size: 14px; }
+
+.cta-btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: var(--accent); color: #000;
+  font-weight: 900; font-size: 14px;
+  padding: 14px 22px; border-radius: var(--r);
+  transition: transform .2s, box-shadow .2s;
+  box-shadow: 0 0 30px rgba(200,255,87,.2);
+  white-space: nowrap;
+}
+.cta-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 40px rgba(200,255,87,.35); }
+.arrow { font-size: 16px; }
+
+/* ── INFO GRID ── */
+.info-grid {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr 0.9fr;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+/* ── CARD ── */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 22px;
+  position: relative;
+  overflow: hidden;
+}
+.card::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(400px circle at 30% 0%, rgba(200,255,87,.04), transparent 70%);
+  pointer-events: none;
+}
+.card-label {
+  font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--muted2); margin-bottom: 14px;
+}
+
+.about-text { color: var(--muted); line-height: 1.7; font-size: 14px; margin-bottom: 18px; }
+.about-kv { display: flex; flex-direction: column; gap: 10px; }
+.kv-item { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.kv-key { font-size: 12px; color: var(--muted2); flex-shrink: 0; }
+.kv-val { font-size: 13px; font-weight: 700; text-align: right; }
+
+.skill-list { display: flex; flex-direction: column; gap: 8px; }
+.skill-item {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 13px; color: var(--muted);
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: rgba(255,255,255,.02);
+  animation: slideIn .4s ease both;
+  animation-delay: calc(var(--i) * .07s);
+}
+@keyframes slideIn { from { opacity:0; transform:translateX(-8px); } to { opacity:1; transform:none; } }
+.skill-icon { font-size: 14px; color: var(--accent); }
+
+.link-list { display: flex; flex-direction: column; gap: 8px; }
+.link-row {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 13px; padding: 11px 13px;
+  border: 1px solid var(--border); border-radius: 12px;
+  background: rgba(255,255,255,.02);
+  transition: border-color .2s, background .2s;
+  cursor: pointer;
+}
+.link-row:hover { border-color: var(--border2); background: rgba(255,255,255,.05); }
+.link-icon { font-size: 12px; color: var(--accent2); flex-shrink: 0; }
+.link-arr { margin-left: auto; color: var(--muted2); font-size: 12px; }
+
+/* ── MARQUEE ── */
+.marquee {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--surface);
+}
+.track {
+  display: flex; gap: 10px; padding: 10px;
+  width: max-content;
+  animation: scroll 20s linear infinite;
+}
+@keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.chip {
+  padding: 8px 14px; border: 1px solid var(--border); border-radius: 999px;
+  font-size: 12px; font-weight: 700; background: rgba(255,255,255,.02);
+  white-space: nowrap; color: var(--muted); font-family: var(--mono);
+}
+
+/* ── SECTIONS ── */
+.section { padding-top: 48px; }
+.section-header {
+  display: flex; justify-content: space-between; align-items: flex-end;
+  gap: 16px; margin-bottom: 20px;
+}
+.section-eyebrow {
+  font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 6px;
+}
+.section-title { font-size: clamp(22px,3vw,32px); font-weight: 900; letter-spacing: -.02em; }
+.section-right { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: flex-end; }
+
+.count-badge {
+  display: flex; flex-direction: column; align-items: flex-end;
+  border: 1px solid var(--border); border-radius: 14px;
+  padding: 10px 14px; background: var(--surface);
+}
+.count-num { font-size: 22px; font-weight: 900; color: var(--accent); }
+.count-label { font-size: 11px; color: var(--muted2); letter-spacing: .06em; text-transform: uppercase; }
+
+/* ── NOTICE ── */
+.notice {
+  display: flex; align-items: flex-start; gap: 12px;
+  background: rgba(255,160,60,.06);
+  border: 1px solid rgba(255,160,60,.2);
+  border-radius: var(--r); padding: 16px 18px;
+  font-size: 13px; color: var(--muted); margin-bottom: 20px;
+}
+.notice-icon { font-size: 18px; flex-shrink: 0; }
+.notice code {
+  font-family: var(--mono); background: rgba(255,255,255,.07);
+  padding: 2px 6px; border-radius: 6px; font-size: 12px;
+}
+
+/* ── GUEST GRID ── */
+.guest-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: start; }
+
+/* ── FORM ── */
+.form-card { display: flex; flex-direction: column; gap: 16px; }
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.field { display: flex; flex-direction: column; gap: 0; }
+.field-label { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted2); margin-bottom: 8px; }
+.field-label-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
+.field-sub { font-size: 11px; color: var(--muted2); }
+
+.input {
+  width: 100%; padding: 12px 14px;
+  background: rgba(255,255,255,.04);
+  border: 1px solid var(--border);
+  border-radius: 12px; color: var(--txt);
+  font-family: var(--font); font-size: 13px;
+  outline: none; transition: border-color .2s;
+}
+.input:focus { border-color: rgba(200,255,87,.4); }
+.input::placeholder { color: var(--muted2); }
+.textarea { min-height: 110px; resize: vertical; }
+.char-count { text-align: right; font-size: 11px; color: var(--muted2); margin-top: 6px; font-family: var(--mono); }
+
+.pill-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+.pill {
+  border: 1px solid var(--border); background: transparent;
+  color: var(--muted); padding: 8px 14px; border-radius: 999px;
+  font-size: 12px; font-weight: 700; cursor: pointer; font-family: var(--font);
+  transition: all .15s;
+}
+.pill:hover { border-color: var(--border2); color: var(--txt); }
+.pill.active { background: var(--accent); color: #000; border-color: var(--accent); }
+
+.form-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+.submit-btn {
+  background: var(--accent); color: #000; border: none;
+  padding: 13px 20px; border-radius: 12px;
+  font-weight: 900; font-size: 13px; cursor: pointer; font-family: var(--font);
+  transition: transform .15s, opacity .15s;
+}
+.submit-btn:hover:not(:disabled) { transform: translateY(-1px); }
+.submit-btn:disabled { opacity: .5; cursor: not-allowed; }
+.ghost-btn {
+  background: transparent; border: 1px solid var(--border);
+  color: var(--muted); padding: 12px 16px; border-radius: 12px;
+  font-weight: 700; font-size: 13px; cursor: pointer; font-family: var(--font);
+  transition: border-color .15s, color .15s;
+}
+.ghost-btn:hover:not(:disabled) { border-color: var(--border2); color: var(--txt); }
+.ghost-btn:disabled { opacity: .5; cursor: not-allowed; }
+
+.msg-error { font-size: 13px; color: #ff8e8e; }
+.msg-ok    { font-size: 13px; color: var(--accent); }
+
+/* ── PREVIEW ── */
+.preview-card { display: flex; flex-direction: column; gap: 12px; }
+.empty-state {
+  padding: 32px 0; text-align: center;
+  font-size: 13px; color: var(--muted2); font-style: italic;
+}
+.preview-entry {
+  border: 1px solid var(--border); border-radius: 14px;
+  padding: 14px; background: rgba(255,255,255,.02);
+  animation: fadeUp .35s ease both;
+}
+@keyframes fadeUp { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:none; } }
+.entry-top { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; margin-bottom: 4px; }
+.entry-name { font-weight: 900; font-size: 14px; }
+.entry-date { font-size: 11px; color: var(--muted2); font-family: var(--mono); }
+.entry-meta { font-size: 12px; color: var(--muted2); margin-bottom: 8px; }
+.dot { margin: 0 4px; }
+.entry-msg { font-size: 13px; color: var(--muted); line-height: 1.6; }
+.view-all {
+  display: inline-flex; margin-top: 4px;
+  padding: 10px 14px; border-radius: 12px;
+  border: 1px solid var(--border);
+  font-size: 12px; font-weight: 900; color: var(--muted);
+  transition: border-color .2s, color .2s;
+}
+.view-all:hover { border-color: var(--border2); color: var(--txt); }
+
+/* ── ENTRIES TABLE ── */
+.table-wrap {
+  border: 1px solid var(--border); border-radius: var(--r);
+  background: var(--surface); overflow: hidden;
+}
+.table-head {
+  display: grid; grid-template-columns: 1.2fr 1fr .9fr 1fr;
+  gap: 12px; padding: 12px 18px;
+  border-bottom: 1px solid var(--border);
+  font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--muted2);
+}
+.table-row {
+  display: grid; grid-template-columns: 1.2fr 1fr .9fr 1fr;
+  gap: 12px; align-items: baseline;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border);
+  transition: background .15s;
+}
+.table-row:last-child { border-bottom: none; }
+.table-row:hover { background: rgba(255,255,255,.02); }
+.table-empty { padding: 20px 18px; }
+.cell { font-size: 13px; }
+.cell-name { font-weight: 900; }
+.muted { color: var(--muted); }
+.tag-badge {
+  display: inline-flex; padding: 5px 10px; border-radius: 999px;
+  border: 1px solid var(--border); font-size: 11px; font-weight: 700;
+  color: var(--muted); background: rgba(255,255,255,.02);
+}
+.msg-expand {
   grid-column: 1 / -1;
-  display:grid;
-  grid-template-columns: 120px 1fr;
-  gap:10px;
-  margin-top:10px;
-  padding-top:10px;
-  border-top:1px dashed rgba(255,255,255,.08);
+  display: grid; grid-template-columns: 100px 1fr; gap: 12px;
+  margin-top: 10px; padding-top: 10px;
+  border-top: 1px dashed rgba(255,255,255,.07);
 }
-.msgLabel{ font-size:12px; color:var(--muted2); text-transform:uppercase; letter-spacing:.02em; }
-.msgText{ line-height:1.6; }
-.empty{ padding:14px; }
+.msg-label { font-size: 11px; color: var(--muted2); letter-spacing: .06em; text-transform: uppercase; padding-top: 2px; }
+.msg-body { font-size: 13px; color: var(--muted); line-height: 1.7; }
 
-/* Footer */
-.footer{
-  margin-top:18px;
-  padding-top:18px;
-  border-top:1px solid var(--border);
-  display:flex;
-  justify-content:space-between;
-  gap:12px;
-  flex-wrap:wrap;
+.filters { display: flex; gap: 10px; flex-wrap: wrap; justify-content: flex-end; }
+.filter-input  { width: 240px; }
+.filter-select { width: 160px; }
+select.input { cursor: pointer; }
+select.input option { background: var(--surface); }
+
+/* ── FOOTER ── */
+.footer {
+  margin-top: 48px; padding-top: 20px;
+  border-top: 1px solid var(--border);
+  display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+  font-size: 12px; color: var(--muted2); font-family: var(--mono);
 }
 
-/* Responsive */
-@media (max-width: 980px){
-  .profileGrid{ grid-template-columns: 1fr; }
-  .guestGrid{ grid-template-columns: 1fr; }
-  .row2{ grid-template-columns: 1fr; }
-  .filters{ justify-content:flex-start; }
-  .filterInput,.filterSelect{ width:100%; }
-  .tableHead{ display:none; }
-  .tableRow{ grid-template-columns: 1fr; gap:8px; }
-  .msgRow{ grid-template-columns: 1fr; }
-  .split{ grid-template-columns: 1fr; }
+/* ── RESPONSIVE ── */
+@media (max-width: 960px) {
+  .info-grid { grid-template-columns: 1fr 1fr; }
+  .links-card { grid-column: 1 / -1; }
+  .guest-grid { grid-template-columns: 1fr; }
+  .row2 { grid-template-columns: 1fr; }
+  .filters { justify-content: flex-start; }
+  .filter-input, .filter-select { width: 100%; }
+  .table-head { display: none; }
+  .table-row { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .msg-expand { grid-template-columns: 1fr; }
 }
-@media (max-width: 820px){
-  .nav{ display:none; }
+@media (max-width: 700px) {
+  .info-grid { grid-template-columns: 1fr; }
+  .hero { flex-direction: column; align-items: flex-start; }
+  .nav { display: none; }
+  .table-row { grid-template-columns: 1fr; }
 }
 </style>
