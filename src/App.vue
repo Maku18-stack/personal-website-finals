@@ -1,148 +1,155 @@
 <template>
   <div class="page">
     <!-- Header -->
-    <header class="topbar">
-      <div class="titleWrap">
-        <div class="title">Maku&apos;s Guestbook</div>
-        <div class="subtitle">Formal</div>
+    <header class="header">
+      <div class="brand">
+        <div class="brandTitle">Maku’s Guestbook</div>
+        <div class="brandSub">Formal registry</div>
       </div>
 
-      <div class="topActions">
-        <button class="btn ghost" @click="load" :disabled="loading || apiMissing">
-          {{ loading ? "Refreshing..." : "Refresh" }}
+      <div class="headerRight">
+        <div class="meta">
+          <div class="metaLabel">Total entries</div>
+          <div class="metaValue">{{ messages.length }}</div>
+        </div>
+        <button class="btn" @click="load" :disabled="loading || apiMissing">
+          {{ loading ? "Refreshing…" : "Refresh" }}
         </button>
       </div>
     </header>
 
-    <!-- Main -->
-    <main class="layout">
-      <!-- Guest panel -->
-      <section class="panel" aria-label="Guestbook form">
-        <div class="panelHead">
-          <div class="panelTitle">
-            <h2 class="h2">Sign the guestbook</h2>
-            <p class="muted small">
-              Entries are displayed on the right. Use search and filters to view.
-            </p>
+    <!-- Content -->
+    <main class="content">
+      <section class="grid">
+        <!-- Register -->
+        <section class="panel" aria-label="Register entry">
+          <div class="panelHead">
+            <h2 class="h2">Register your entry</h2>
+            <p class="muted small">Complete the form and submit.</p>
           </div>
 
-          <div class="stats">
-            <div class="statBox">
-              <div class="statLabel">Guests signed</div>
-              <div class="statValue">{{ messages.length }}</div>
+          <div v-if="apiMissing" class="notice">
+            <div class="noticeTitle">Configuration required</div>
+            <div class="noticeText">
+              Set <code>VITE_API_URL</code> in the <b>frontend</b> Vercel project to your backend URL, then redeploy.
             </div>
           </div>
-        </div>
 
-        <div v-if="apiMissing" class="notice">
-          <div class="noticeTitle">API URL missing</div>
-          <div class="noticeText">
-            Set <code>VITE_API_URL</code> in your <b>frontend</b> Vercel project to your backend URL, then redeploy.
-          </div>
-        </div>
+          <form class="form" @submit.prevent="submit">
+            <div class="row2">
+              <label class="field">
+                <span>Name</span>
+                <input v-model="name" class="input" placeholder="Full name" maxlength="40" />
+              </label>
 
-        <form class="form" @submit.prevent="submit">
-          <label class="field">
-            <span>Name</span>
-            <input v-model="name" class="input" placeholder="Your name" maxlength="40" />
-          </label>
-
-          <label class="field">
-            <span>Where you&apos;re from</span>
-            <input v-model="location" class="input" placeholder="City / Country" maxlength="60" />
-          </label>
-
-          <div class="field">
-            <div class="fieldRow">
-              <span class="fieldLabel">Select a tag</span>
-              <span class="muted small">Selected: {{ selectedTagLabel }}</span>
+              <label class="field">
+                <span>Location</span>
+                <input v-model="location" class="input" placeholder="City / Country" maxlength="60" />
+              </label>
             </div>
 
-            <div class="tagGrid" role="list">
-              <button
-                v-for="t in tags"
-                :key="t.id"
-                type="button"
-                class="tagBtn"
-                :class="{ active: tag === t.id }"
-                @click="tag = t.id"
-                role="listitem"
-              >
-                <span class="tagDot" aria-hidden="true"></span>
-                <span class="tagText">{{ t.label }}</span>
+            <div class="field">
+              <div class="fieldTop">
+                <span class="fieldLabel">Category</span>
+                <span class="muted small">Selected: {{ selectedTagLabel }}</span>
+              </div>
+
+              <div class="pillGrid" role="list">
+                <button
+                  v-for="t in tags"
+                  :key="t.id"
+                  type="button"
+                  class="pill"
+                  :class="{ active: tag === t.id }"
+                  @click="tag = t.id"
+                  role="listitem"
+                >
+                  {{ t.label }}
+                </button>
+              </div>
+            </div>
+
+            <label class="field">
+              <span>Message</span>
+              <textarea
+                v-model="message"
+                class="input textarea"
+                placeholder="Write a short message (max 200 characters)"
+                maxlength="200"
+              ></textarea>
+              <div class="counter">{{ (message || "").length }}/200</div>
+            </label>
+
+            <div class="actions">
+              <button class="btn primary" :disabled="loading || apiMissing">
+                {{ loading ? "Posting…" : "Submit entry" }}
+              </button>
+              <button class="btn" type="button" @click="resetForm" :disabled="loading">
+                Clear
               </button>
             </div>
-          </div>
 
-          <label class="field">
-            <span>Message</span>
-            <textarea
-              v-model="message"
-              class="input textarea"
-              placeholder="Write a message"
-              maxlength="200"
-            ></textarea>
-            <div class="counter">{{ (message || "").length }}/200</div>
-          </label>
+            <p v-if="error" class="error">{{ error }}</p>
+            <p v-if="ok" class="ok">Entry submitted.</p>
+          </form>
+        </section>
 
-          <div class="actions">
-            <button class="btn" :disabled="loading || apiMissing">
-              {{ loading ? "Posting..." : "Post message" }}
-            </button>
-            <button class="btn ghost" type="button" @click="resetForm" :disabled="loading">
-              Clear
-            </button>
-          </div>
-
-          <p v-if="error" class="error">{{ error }}</p>
-          <p v-if="ok" class="ok">Posted.</p>
-        </form>
-      </section>
-
-      <!-- Guest list -->
-      <section class="log" aria-label="Guestbook entries">
-        <div class="logHead">
-          <div>
-            <h2 class="h2">Guest entries</h2>
-            <p class="muted small">Search and filter to find entries.</p>
-          </div>
-
-          <div class="tools">
-            <input v-model="query" class="input tool" placeholder="Search name/message/location" maxlength="40" />
-            <select v-model="filterTag" class="input tool select">
-              <option value="">All tags</option>
-              <option v-for="t in tags" :key="t.id" :value="t.id">{{ t.label }}</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="list">
-          <div v-if="filteredMessages.length === 0" class="empty muted">
-            No entries found.
-          </div>
-
-          <article v-for="m in filteredMessages" :key="m.id" class="entry">
-            <div class="entryTop">
-              <div class="entryName">
-                {{ m.name }}
-                <span v-if="m.tag" class="tagPill">{{ tagLabel(m.tag) }}</span>
-              </div>
-              <div class="entryMeta muted">
-                <span>{{ m.location || "—" }}</span>
-                <span class="sep">•</span>
-                <span>{{ formatDate(m.created_at) }}</span>
-              </div>
+        <!-- Entries -->
+        <section class="panel" aria-label="Entries">
+          <div class="panelHead rowBetween">
+            <div>
+              <h2 class="h2">Entries</h2>
+              <p class="muted small">Search and filter.</p>
             </div>
 
-            <div class="entryMsg">{{ m.message }}</div>
-          </article>
-        </div>
+            <div class="filters">
+              <input
+                v-model="query"
+                class="input filterInput"
+                placeholder="Search name/message/location"
+                maxlength="40"
+              />
+              <select v-model="filterTag" class="input filterSelect">
+                <option value="">All categories</option>
+                <option v-for="t in tags" :key="t.id" :value="t.id">{{ t.label }}</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="table">
+            <div class="tableHead">
+              <div>Name</div>
+              <div>Location</div>
+              <div>Category</div>
+              <div>Date</div>
+            </div>
+
+            <div v-if="filteredMessages.length === 0" class="empty muted">
+              No entries found.
+            </div>
+
+            <article v-for="m in filteredMessages" :key="m.id" class="tableRow">
+              <div class="cell strong">{{ m.name }}</div>
+              <div class="cell muted">{{ m.location || "—" }}</div>
+              <div class="cell">
+                <span v-if="m.tag" class="tagPill">{{ tagLabel(m.tag) }}</span>
+                <span v-else class="muted">—</span>
+              </div>
+              <div class="cell muted">{{ formatDate(m.created_at) }}</div>
+
+              <div class="msgRow">
+                <div class="msgLabel muted">Message</div>
+                <div class="msgText">{{ m.message }}</div>
+              </div>
+            </article>
+          </div>
+        </section>
       </section>
     </main>
 
     <footer class="footer">
       <div class="muted small">© {{ new Date().getFullYear() }} Maku</div>
-      <div class="muted small">Guestbook</div>
+      <div class="muted small">Guestbook registry</div>
     </footer>
   </div>
 </template>
@@ -156,10 +163,8 @@ const apiMissing = computed(() => !API || typeof API !== "string" || !API.starts
 const tags = [
   { id: "formal", label: "Formal" },
   { id: "respectful", label: "Respectful" },
-  { id: "friendly", label: "Friendly" },
   { id: "professional", label: "Professional" },
-  { id: "short", label: "Short" },
-  { id: "detailed", label: "Detailed" },
+  { id: "friendly", label: "Friendly" },
   { id: "neutral", label: "Neutral" },
   { id: "feedback", label: "Feedback" },
 ];
@@ -246,7 +251,6 @@ async function submit() {
     error.value = "Please enter your name and message.";
     return;
   }
-
   if (apiMissing.value) {
     error.value = "API URL missing. Set VITE_API_URL then redeploy.";
     return;
@@ -257,12 +261,7 @@ async function submit() {
     const res = await fetch(`${API}/guestbook`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        name: n,
-        message: msg,
-        location: loc,
-        tag: tag.value,
-      }),
+      body: JSON.stringify({ name: n, message: msg, location: loc, tag: tag.value }),
     });
 
     const data = await res.json();
@@ -288,106 +287,107 @@ onMounted(load);
 <style>
 :root{
   --bg:#0b0b0b;
-  --card:#101010;
-  --border:#1f1f1f;
+  --surface:#0f0f0f;
+  --card:#121212;
+  --border:#232323;
   --text:#ffffff;
-  --muted:rgba(255,255,255,.65);
+  --muted:rgba(255,255,255,.68);
   --muted2:rgba(255,255,255,.45);
-  --shadow:0 12px 34px rgba(0,0,0,.4);
-  --radius:20px;
+  --shadow:0 14px 44px rgba(0,0,0,.45);
+  --radius:16px;
 }
+
 *{ box-sizing:border-box; }
 html,body{ margin:0; padding:0; background:var(--bg); color:var(--text); }
-.page{
-  max-width:1180px;
-  margin:0 auto;
-  padding:22px 18px 40px;
-}
+.page{ max-width:1160px; margin:0 auto; padding:26px 18px 44px; }
 
 /* Header */
-.topbar{
-  position:sticky; top:0; z-index:20;
-  display:flex; align-items:center; justify-content:space-between;
-  gap:12px;
-  padding:14px 12px;
-  margin:-10px 0 18px;
+.header{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  gap:16px;
+  padding:14px 2px 18px;
   border-bottom:1px solid var(--border);
-  background:rgba(11,11,11,.85);
-  backdrop-filter: blur(10px);
 }
-.titleWrap{ display:grid; gap:4px; }
-.title{ font-weight:900; letter-spacing:.2px; font-size:16px; }
-.subtitle{ font-size:12px; color:var(--muted); }
-.nav{ display:flex; gap:10px; }
-.nav a{
-  font-size:13px;
+.brandTitle{
+  font-weight:900;
+  font-size:22px;
+  letter-spacing:-.01em;
+}
+.brandSub{
+  margin-top:6px;
+  font-size:12px;
   color:var(--muted);
-  padding:8px 10px;
-  border-radius:999px;
-  text-decoration:none;
+  letter-spacing:.08em;
+  text-transform:uppercase;
 }
-.nav a:hover{ background:rgba(255,255,255,.06); color:#fff; }
-.topActions{ display:flex; gap:10px; align-items:center; }
+
+.headerRight{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+.meta{
+  text-align:right;
+  padding:10px 12px;
+  border:1px solid var(--border);
+  border-radius:14px;
+  background:rgba(255,255,255,.02);
+}
+.metaLabel{ font-size:12px; color:var(--muted2); }
+.metaValue{ font-size:18px; font-weight:900; margin-top:4px; }
 
 /* Layout */
-.layout{
+.content{ padding-top:18px; }
+.grid{
   display:grid;
-  grid-template-columns: 0.98fr 1.02fr;
+  grid-template-columns: 1fr 1fr;
   gap:18px;
   align-items:start;
 }
 
-/* Panels */
-.panel, .log{
+.panel{
+  background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,0));
   border:1px solid var(--border);
-  background:var(--card);
   border-radius:var(--radius);
-  padding:22px;
   box-shadow:var(--shadow);
+  padding:20px;
 }
-.panelHead{
+
+.panelHead{ margin-bottom:14px; }
+.rowBetween{
   display:flex;
   justify-content:space-between;
   align-items:flex-start;
   gap:12px;
-  margin-bottom:14px;
 }
+
 .h2{ margin:0 0 6px; font-size:18px; letter-spacing:-.01em; }
 .muted{ color:var(--muted); }
 .small{ font-size:12px; }
-.stats{ display:flex; gap:10px; }
-.statBox{
-  border:1px solid var(--border);
-  border-radius:16px;
-  padding:12px 14px;
-  background:rgba(255,255,255,.02);
-  min-width:140px;
-}
-.statLabel{ font-size:12px; color:var(--muted2); margin-bottom:6px; }
-.statValue{ font-size:22px; font-weight:900; }
 
 /* Notice */
 .notice{
   border:1px solid #3a3a3a;
-  background:rgba(255,255,255,.03);
-  border-radius:16px;
-  padding:14px;
-  margin-bottom:14px;
+  background:rgba(255,255,255,.02);
+  border-radius:14px;
+  padding:12px;
+  margin-bottom:12px;
 }
 .noticeTitle{ font-weight:900; margin-bottom:6px; }
-.noticeText{ font-size:13px; color:var(--muted); line-height:1.55; }
+.noticeText{ color:var(--muted); font-size:13px; line-height:1.55; }
 code{ font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace; font-size:12px; }
 
 /* Form */
 .form{ display:grid; gap:12px; }
+.row2{ display:grid; grid-template-columns: 1fr 1fr; gap:12px; }
 .field span{ display:block; font-size:12px; color:var(--muted2); margin-bottom:7px; }
-.fieldRow{ display:flex; justify-content:space-between; align-items:baseline; gap:10px; }
-.fieldLabel{ font-size:12px; color:var(--muted2); }
 
 .input{
   width:100%;
   padding:12px 14px;
-  border-radius:16px;
+  border-radius:14px;
   border:1px solid #2a2a2a;
   background:#0b0b0b;
   color:#fff;
@@ -397,104 +397,127 @@ code{ font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liber
 .textarea{ min-height:120px; resize:vertical; }
 .counter{ text-align:right; font-size:12px; color:var(--muted); margin-top:6px; }
 
-.tagGrid{
-  display:grid;
-  grid-template-columns: repeat(4, 1fr);
+.fieldTop{ display:flex; justify-content:space-between; align-items:baseline; gap:10px; }
+.fieldLabel{ font-size:12px; color:var(--muted2); }
+
+/* Category pills */
+.pillGrid{
+  display:flex;
+  flex-wrap:wrap;
   gap:10px;
   margin-top:8px;
 }
-.tagBtn{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:10px;
-  padding:12px 10px;
-  border-radius:16px;
+.pill{
   border:1px solid #2a2a2a;
   background:rgba(255,255,255,.02);
   color:#fff;
+  padding:10px 12px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:800;
   cursor:pointer;
 }
-.tagBtn:hover{ transform: translateY(-1px); border-color:#3a3a3a; }
-.tagBtn.active{
+.pill:hover{ border-color:#3a3a3a; transform: translateY(-1px); }
+.pill.active{
   background:#fff;
   color:#000;
   border-color:#fff;
 }
-.tagDot{
-  width:10px; height:10px;
-  border-radius:999px;
-  background: currentColor;
-  opacity:.9;
-}
-.tagText{ font-size:12px; font-weight:900; }
-
-.actions{ display:flex; gap:10px; flex-wrap:wrap; }
 
 /* Buttons */
+.actions{ display:flex; gap:10px; flex-wrap:wrap; }
 .btn{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  padding:12px 14px;
-  border-radius:16px;
   border:1px solid #2a2a2a;
-  background:#fff;
-  color:#000;
+  background:transparent;
+  color:#fff;
+  padding:12px 14px;
+  border-radius:14px;
   font-weight:900;
   font-size:13px;
   cursor:pointer;
 }
 .btn:hover{ transform: translateY(-1px); }
 .btn:disabled{ opacity:.6; cursor:not-allowed; transform:none; }
-.btn.ghost{ background:transparent; color:#fff; }
+.btn.primary{
+  background:#fff;
+  color:#000;
+  border-color:#fff;
+}
+
 .error{ color:#ff8e8e; margin:0; font-size:13px; }
 .ok{ color:#9dffb3; margin:0; font-size:13px; }
 
-/* Log */
-.logHead{
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-start;
-  gap:12px;
-  margin-bottom:12px;
-}
-.tools{
+/* Filters */
+.filters{
   display:flex;
   gap:10px;
   flex-wrap:wrap;
   justify-content:flex-end;
 }
-.tool{ width:260px; }
-.select{ width:160px; }
+.filterInput{ width:260px; }
+.filterSelect{ width:170px; }
 
-.list{
+/* Entries table */
+.table{
   border:1px solid var(--border);
-  border-radius:18px;
-  padding:14px;
+  border-radius:14px;
   background:rgba(255,255,255,.02);
-  max-height:560px;
-  overflow:auto;
+  overflow:hidden;
 }
-.empty{ padding:10px 6px; }
-.entry{
-  border-top:1px solid var(--border);
-  padding:12px 6px;
+.tableHead{
+  display:grid;
+  grid-template-columns: 1.1fr .9fr .8fr .9fr;
+  gap:10px;
+  padding:12px 14px;
+  border-bottom:1px solid var(--border);
+  font-size:12px;
+  color:var(--muted2);
+  letter-spacing:.02em;
+  text-transform:uppercase;
 }
-.entry:first-child{ border-top:none; }
-.entryTop{ display:grid; gap:6px; margin-bottom:6px; }
-.entryName{ font-weight:900; display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+.tableRow{
+  padding:12px 14px 14px;
+  border-bottom:1px solid var(--border);
+}
+.tableRow:last-child{ border-bottom:none; }
+
+.tableRow > .cell{
+  display:inline-block;
+}
+.tableRow{
+  display:grid;
+  grid-template-columns: 1.1fr .9fr .8fr .9fr;
+  gap:10px;
+  align-items:baseline;
+}
+.cell{ font-size:13px; }
+.strong{ font-weight:900; }
+
 .tagPill{
-  font-size:11px;
-  padding:6px 9px;
+  display:inline-flex;
+  padding:6px 10px;
   border-radius:999px;
   border:1px solid var(--border);
-  color:var(--muted);
   background:rgba(255,255,255,.03);
+  font-size:12px;
+  color:var(--muted);
+  font-weight:800;
 }
-.entryMeta{ font-size:12px; display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
-.sep{ opacity:.5; }
-.entryMsg{ line-height:1.65; }
+
+/* Message row under each entry */
+.msgRow{
+  grid-column: 1 / -1;
+  display:grid;
+  grid-template-columns: 120px 1fr;
+  gap:10px;
+  margin-top:10px;
+  padding-top:10px;
+  border-top:1px dashed rgba(255,255,255,.08);
+}
+.msgLabel{ font-size:12px; color:var(--muted2); text-transform:uppercase; letter-spacing:.02em; }
+.msgText{ line-height:1.6; }
+
+.empty{ padding:14px; }
 
 /* Footer */
 .footer{
@@ -509,13 +532,15 @@ code{ font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liber
 
 /* Responsive */
 @media (max-width: 980px){
-  .layout{ grid-template-columns: 1fr; }
-}
-@media (max-width: 920px){
-  .page{ padding:18px 14px 30px; }
-  .nav{ display:none; }
-  .panel, .log{ padding:18px; }
-  .tagGrid{ grid-template-columns: repeat(2, 1fr); }
-  .tool, .select{ width:100%; }
+  .grid{ grid-template-columns: 1fr; }
+  .row2{ grid-template-columns: 1fr; }
+  .filters{ justify-content:flex-start; }
+  .filterInput, .filterSelect{ width:100%; }
+  .tableHead{ display:none; }
+  .tableRow{
+    grid-template-columns: 1fr;
+    gap:8px;
+  }
+  .msgRow{ grid-template-columns: 1fr; }
 }
 </style>
